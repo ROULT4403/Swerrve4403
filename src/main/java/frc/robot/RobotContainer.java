@@ -9,6 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,6 +22,9 @@ public class RobotContainer
     private final DriveSubsystem swerve = new DriveSubsystem();
 
     CommandXboxController driver = new CommandXboxController(driverPort);
+
+    Trigger start = driver.start();
+    Trigger stop = driver.back();
     
     public RobotContainer()
     {
@@ -30,29 +34,21 @@ public class RobotContainer
             new RunCommand(
                 () ->
                     swerve.drive(
-                        getLeftY(),
-                        getLeftX(),
-                        getRightX(),
+                        -driver.getLeftY(),
+                        -driver.getLeftX(),
+                        driver.getRightX(),
                         fieldOriented),
                 swerve));
     }
 
     
-    private void configureButtonBindings() {}
-
-    private double getLeftY()
+    private void configureButtonBindings()
     {
-        return driver.getLeftY() * deadband;
-    }
+        start.onTrue(new RunCommand(() -> swerve.startModules(), swerve));
+        start.onFalse(null);
 
-    private double getLeftX()
-    {
-        return driver.getLeftX() * deadband;
-    }
-
-    private double getRightX()
-    {
-        return driver.getRightX() * deadband;
+        stop.onTrue(new RunCommand(() -> swerve.stopModules(), swerve));
+        stop.onFalse(null);
     }
     
     public Command getAutonomousCommand()

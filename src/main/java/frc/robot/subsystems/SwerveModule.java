@@ -13,11 +13,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,9 +30,7 @@ public class SwerveModule  extends SubsystemBase
   private final RelativeEncoder driveEncoder;
   private final DutyCycleEncoder absoluteEncoder;
 
-  private final PIDController drivePID;
-
-  private final ProfiledPIDController turningPID;
+  private final PIDController turningPID;
 
   private final double offset;
 
@@ -46,8 +42,9 @@ public class SwerveModule  extends SubsystemBase
       boolean driveMotorReversed,
       boolean turningMotorReversed,
       double offsetRad,
-      double driveP, double driveI,
-      double turnP, double turnI)
+      double turningP,
+      double turningI, 
+      double turningD)
       {
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         driveMotor.restoreFactoryDefaults();
@@ -68,8 +65,7 @@ public class SwerveModule  extends SubsystemBase
 
         this.offset = offsetRad;
 
-        drivePID = new PIDController(driveP, driveI, 0);
-        turningPID = new ProfiledPIDController(turnP, turnI, 0, new TrapezoidProfile.Constraints(turningSpeed, turningAcceleration));
+        turningPID = new PIDController(turningP, turningI, turningD);
 
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -96,21 +92,21 @@ public class SwerveModule  extends SubsystemBase
 
   public double getAbsoluteAngle()
   {
-    return (absoluteEncoder.getAbsolutePosition() * 360) - offset;
+    return (absoluteEncoder.getAbsolutePosition() * (2 * Math.PI)) - offset;
   }
 
   public void setDesiredState(SwerveModuleState desiredState)
   {
     SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(getAngle()));
+        SwerveModuleState.optimize(desiredState, new Rotation2d(getAngle() - offset));
 
     final double driveOutput =
-        drivePID.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond);
+        state.speedMetersPerSecond;
 
     final double turnOutput =
         turningPID.calculate(getAngle(), state.angle.getRadians());
 
-    driveMotor.set(driveOutput);
+    driveMotor.set(driveOutput / maxSpeedMPS);
     turningMotor.set(ControlMode.PercentOutput, turnOutput);
   }
 
@@ -118,6 +114,17 @@ public class SwerveModule  extends SubsystemBase
   {
     driveEncoder.setPosition(0);
     turningMotor.setSelectedSensorPosition(getAbsoluteAngle());
+  }
+
+  public void startModule()
+  {
+    turningMotor.set(ControlMode.PercentOutput, turningPID.calculate(getAngle(), 0));
+  }
+
+  public void stopModule()
+  {
+    driveMotor.set(0);
+    turningMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
