@@ -23,14 +23,14 @@ public final class Constants
     public static final int[] driveMotorIDs = new int[] {10, 3, 1, 4};
     public static final int[] turningMotorIDs = new int[] {5, 7, 6, 8};
     public static final int[] absoluteEncoderChannels = new int[] {5, 7, 6, 9};
-    public static final boolean[] driveInverted = new boolean[] {false, true, true, true};
+    public static final boolean[] driveInverted = new boolean[] {true, true, false, true};
     public static final boolean[] turningInverted = new boolean[] {false, true, false, false};
     
-    public static final double[] offset = new double[] {0, 0, 0, 0};
+    public static final double[] offset = new double[] {0.89, 0.2, 0, 1.97};
 
-    public static final double[] turningP = new double[] {0,0,0,0};//0.1, 0.25, 0.1, 0.1};
-    public static final double[] turningI = new double[] {0,0,0,0};//0, 0.02, 0.01, 0};
-    public static final double[] turningD = new double[] {0, 0, 0, 0};
+    public static final double[] turningP = new double[] {0.025, 0.025, 0.25, 0.025};//0.035, 0.0355, 0.0355, 0.035};
+    public static final double[] turningI = new double[] {0.02, 0.002, 0.2, 0.0002};
+    public static final double[] turningD = new double[] {0.004, 0.04, 0.004, 0.04};
 
     public static final double kTrackWidth = Units.inchesToMeters(19);
 
@@ -45,9 +45,9 @@ public final class Constants
 
     public static final boolean navXInverted = false;
 
-    public static final double maxSpeedMPS = 5;
+    public static final double maxSpeedMPS = 3;
 
-    public static final double deadband = 0.5;
+    public static final double deadband = 1.5;
   }
 
   public static final class ModuleConstants
@@ -61,7 +61,7 @@ public final class Constants
         // Assumes the encoders are directly mounted on the wheel shafts
         (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
-    public static final double maxSpeedMPS = 5;
+    public static final double maxSpeedMPS = 3;
   }
 
   public static final class OIConstants
