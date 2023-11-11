@@ -20,34 +20,37 @@ public final class Constants
 {
   public static final class DriveConstants
   {
-    public static final int[] driveMotorIDs = new int[] {10, 3, 1, 4};
-    public static final int[] turningMotorIDs = new int[] {5, 7, 6, 8};
-    public static final int[] absoluteEncoderChannels = new int[] {5, 7, 6, 9};
+    //CORRECTED IDS TO MATCH THE CORRECT ORDER, COMMENTS WITH PREVIOUS CONFIG
+    public static final int[] driveMotorIDs =           new int[] {10, 1, 3, 4}; //{10, 3, 1, 4};
+    public static final int[] turningMotorIDs =         new int[] {5, 6, 7, 8}; //{5, 7, 6, 8}
+    public static final int[] absoluteEncoderChannels = new int[] {5, 6, 7, 9}; //{5, 7, 6, 9}
     public static final boolean[] driveInverted = new boolean[] {true, true, false, true};
-    public static final boolean[] turningInverted = new boolean[] {false, true, false, false};
+    public static final boolean[] turningInverted = new boolean[] {true, false, false, true};
     
-    public static final double[] offset = new double[] {0.89, 0.2, 0, 1.97};
-
-    public static final double[] turningP = new double[] {0.025, 0.025, 0.25, 0.025};//0.035, 0.0355, 0.0355, 0.035};
-    public static final double[] turningI = new double[] {0.02, 0.002, 0.2, 0.0002};
-    public static final double[] turningD = new double[] {0.004, 0.04, 0.004, 0.04};
+    //NEED TO REVIEW THE CORRECT OFFSET FOR MODULES 
+    public static final double[] offset = new double[] {0.89, 0.2, 0, 1.5}; //{0.89, 0.2, 0, 1.97};
+    
+    //NEED TO REVIEW WHY MODULE BACKRIGHT GOES CRAZY
+    public static final double[] turningP = new double[] {0.25, 0.25, 0.25, 0.18};//0.035, 0.0355, 0.0355, 0.035};
+    public static final double[] turningI = new double[] {0.0, 0.0, 0.0, 0.0};
+    public static final double[] turningD = new double[] {0.0, 0.0, 0.0, 0.0};
 
     public static final double kTrackWidth = Units.inchesToMeters(19);
 
     public static final double kWheelBase = Units.inchesToMeters(19);
-
+    //CHANGED TO MAKE CONSISTENT VS GYRO
     public static final SwerveDriveKinematics kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+            new Translation2d(kWheelBase / 2, kTrackWidth / 2));
 
     public static final boolean navXInverted = false;
 
     public static final double maxSpeedMPS = 3;
 
-    public static final double deadband = 1.5;
+    public static final double deadband = 1;
   }
 
   public static final class ModuleConstants

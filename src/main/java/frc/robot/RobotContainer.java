@@ -7,11 +7,12 @@ package frc.robot;
 import static frc.robot.Constants.OIConstants.*;
 
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -21,10 +22,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer
 {
     private final DriveSubsystem swerve = new DriveSubsystem();
-
+    //ADDED LIMITER AND DEADBAND TO AID CONTROL AND DEBUGGING
     CommandXboxController driver = new CommandXboxController(driverPort);
+    private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(3);
+    private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3);
+    private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
     
     public RobotContainer()
+   
     {
         configureButtonBindings();
 
@@ -32,10 +37,10 @@ public class RobotContainer
             new RunCommand(
                 () ->
                     swerve.drive(
-                        -driver.getLeftY(),
-                        driver.getLeftX(),
-                        driver.getRightX(),
-                        fieldOriented),
+                        -m_xspeedLimiter.calculate(MathUtil.applyDeadband(driver.getLeftY(), 0.25)),
+                        -m_yspeedLimiter.calculate(MathUtil.applyDeadband(driver.getLeftX(), 0.25)),
+                        -m_rotLimiter.calculate(MathUtil.applyDeadband(driver.getRightX(), 0.25)),
+                       fieldOriented),
                 swerve));
     }
 

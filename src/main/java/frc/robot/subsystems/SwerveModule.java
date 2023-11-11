@@ -131,8 +131,9 @@ public class SwerveModule  extends SubsystemBase
   public void periodic()
   {
     SmartDashboard.putNumber("Drive Velocity: " + driveMotor.getDeviceId(), getState().speedMetersPerSecond);
-    SmartDashboard.putNumber("Drive Velocity: " + driveMotor.getDeviceId(), driveEncoder.getPosition());
+    SmartDashboard.putNumber("Drive Position: " + driveMotor.getDeviceId(), driveEncoder.getPosition());
     SmartDashboard.putNumber("Turning Angle: " + turningMotor.getDeviceID(), getState().angle.getRadians());
     SmartDashboard.putNumber("Absolute Angle: " + absoluteEncoder.getSourceChannel(), getAbsoluteAngle());
+
   }
 }

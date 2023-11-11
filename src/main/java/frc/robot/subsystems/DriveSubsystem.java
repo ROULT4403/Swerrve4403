@@ -20,19 +20,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase
 {
+  //CHANGED MODULES ORDER TO MAKE CODE CONSISTENT
   private final SwerveModule frontLeft =
       new SwerveModule(
           driveMotorIDs[0], turningMotorIDs[0], absoluteEncoderChannels[0],
           driveInverted[0], turningInverted[0], offset[0],
           turningP[0], turningI[0], turningD[0]);
 
-  private final SwerveModule backLeft =
+  private final SwerveModule frontRight =
       new SwerveModule(
           driveMotorIDs[1], turningMotorIDs[1], absoluteEncoderChannels[1],
           driveInverted[1], turningInverted[1], offset[1],
           turningP[1], turningI[1], turningD[1]);
 
-  private final SwerveModule frontRight =
+  private final SwerveModule backLeft =
       new SwerveModule(
           driveMotorIDs[2], turningMotorIDs[2], absoluteEncoderChannels[2],
           driveInverted[2], turningInverted[2], offset[2],
