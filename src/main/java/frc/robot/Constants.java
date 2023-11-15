@@ -21,19 +21,23 @@ public final class Constants
   public static final class DriveConstants
   {
     //CORRECTED IDS TO MATCH THE CORRECT ORDER, COMMENTS WITH PREVIOUS CONFIG
-    public static final int[] driveMotorIDs =           new int[] {10, 1, 3, 4}; //{10, 3, 1, 4};
-    public static final int[] turningMotorIDs =         new int[] {5, 6, 7, 8}; //{5, 7, 6, 8}
+    public static final int[] driveMotorIDs = new int[] {10, 1, 3, 4}; //{10, 3, 1, 4};
+    public static final int[] turningMotorIDs = new int[] {5, 6, 7, 8}; //{5, 7, 6, 8}
     public static final int[] absoluteEncoderChannels = new int[] {5, 6, 7, 9}; //{5, 7, 6, 9}
-    public static final boolean[] driveInverted = new boolean[] {true, true, false, true};
+    public static final boolean[] driveInverted = new boolean[] {false, true, false, true};
     public static final boolean[] turningInverted = new boolean[] {true, false, false, true};
     
     //NEED TO REVIEW THE CORRECT OFFSET FOR MODULES 
-    public static final double[] offset = new double[] {0.89, 0.2, 0, 1.5}; //{0.89, 0.2, 0, 1.97};
+    public static final double[] offset = new double[] {4.02, 0.83, 3.35, 5.17}; //{3.13, 0.64, 3.33, 3.62}; //{0.89, 0.2, 0, 1.97};
     
     //NEED TO REVIEW WHY MODULE BACKRIGHT GOES CRAZY
-    public static final double[] turningP = new double[] {0.25, 0.25, 0.25, 0.18};//0.035, 0.0355, 0.0355, 0.035};
+    public static final double[] turningP = new double[] {0.25, 0.25, 0.25, 0.18}; //0.035, 0.0355, 0.0355, 0.035};
     public static final double[] turningI = new double[] {0.0, 0.0, 0.0, 0.0};
     public static final double[] turningD = new double[] {0.0, 0.0, 0.0, 0.0};
+
+    public static final double[] alignP = new double[] {0.25, 0.25, 0.25, 0.18};
+    public static final double[] alignI = new double[] {0.0, 0.0, 0.0, 0.0};
+    public static final double[] alignD = new double[] {0.0, 0.0, 0.0, 0.0};
 
     public static final double kTrackWidth = Units.inchesToMeters(19);
 
@@ -49,8 +53,6 @@ public final class Constants
     public static final boolean navXInverted = false;
 
     public static final double maxSpeedMPS = 3;
-
-    public static final double deadband = 1;
   }
 
   public static final class ModuleConstants
@@ -65,12 +67,17 @@ public final class Constants
         (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
     public static final double maxSpeedMPS = 3;
+
+    public static final double initSetpoint = 0;
+    public static final double positionTolerance = 0.01;
   }
 
   public static final class OIConstants
   {
     public static final int driverPort = 0;
 
+    public static final double deadband = 0.25;
+    public static final double rateLimiter = 3;
     public static final boolean fieldOriented = false;
   }
 }

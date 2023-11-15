@@ -73,21 +73,26 @@ public class SwerveModule  extends SubsystemBase
       }
 
 
-  private double getAngle()
+  public double getAngle()
   {
     return ((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
+  }
+
+  public void alignModule(double input)
+  {
+    turningMotor.set(ControlMode.PercentOutput, input);
   }
 
   public SwerveModuleState getState()
   {
     return new SwerveModuleState(
-        driveEncoder.getVelocity(), new Rotation2d(getAngle() - offset));
+        driveEncoder.getVelocity(), new Rotation2d(getAngle()));
   }
 
   public SwerveModulePosition getPosition()
   {
     return new SwerveModulePosition(
-        driveEncoder.getPosition(), new Rotation2d(getAngle() - offset));
+        driveEncoder.getPosition(), new Rotation2d(getAngle()));
   }
 
   public double getAbsoluteAngle()
@@ -98,7 +103,7 @@ public class SwerveModule  extends SubsystemBase
   public void setDesiredState(SwerveModuleState desiredState)
   {
     SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(getAngle() - offset));
+        SwerveModuleState.optimize(desiredState, new Rotation2d(getAngle()));
 
     final double driveOutput =
         state.speedMetersPerSecond;
@@ -114,17 +119,6 @@ public class SwerveModule  extends SubsystemBase
   {
     driveEncoder.setPosition(0);
     turningMotor.setSelectedSensorPosition(getAbsoluteAngle());
-  }
-
-  public void startModule()
-  {
-    turningMotor.set(ControlMode.PercentOutput, turningPID.calculate(getAngle(), 0));
-  }
-
-  public void stopModule()
-  {
-    driveMotor.set(0);
-    turningMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
