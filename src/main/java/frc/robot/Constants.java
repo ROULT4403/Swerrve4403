@@ -23,19 +23,19 @@ public final class Constants
     //CORRECTED IDS TO MATCH THE CORRECT ORDER, COMMENTS WITH PREVIOUS CONFIG
     public static final int[] driveMotorIDs = new int[] {10, 1, 3, 4}; //{10, 3, 1, 4};
     public static final int[] turningMotorIDs = new int[] {5, 6, 7, 8}; //{5, 7, 6, 8}
-    public static final int[] absoluteEncoderChannels = new int[] {5, 6, 7, 9}; //{5, 7, 6, 9}
+    public static final int[] absoluteEncoderChannels = new int[] {1, 0, 2, 3}; //{5, 7, 6, 9}
     public static final boolean[] driveInverted = new boolean[] {false, true, false, true};
     public static final boolean[] turningInverted = new boolean[] {true, false, false, true};
     
     //NEED TO REVIEW THE CORRECT OFFSET FOR MODULES 
-    public static final double[] offset = new double[] {4.02, 0.83, 3.35, 5.17}; //{3.13, 0.64, 3.33, 3.62}; //{0.89, 0.2, 0, 1.97};
+    public static final double[] offset = new double[] {0, 0, 0.67, 0};
     
     //NEED TO REVIEW WHY MODULE BACKRIGHT GOES CRAZY
-    public static final double[] turningP = new double[] {0.25, 0.25, 0.25, 0.18}; //0.035, 0.0355, 0.0355, 0.035};
-    public static final double[] turningI = new double[] {0.0, 0.0, 0.0, 0.0};
+    public static final double[] turningP = new double[] {0.1, 0.25, 0.25, 0.0};
+    public static final double[] turningI = new double[] {0.00, 0.0, 0.0, 0.00};
     public static final double[] turningD = new double[] {0.0, 0.0, 0.0, 0.0};
 
-    public static final double[] alignP = new double[] {0.25, 0.25, 0.25, 0.18};
+    public static final double[] alignP = new double[] {0.5, 0.5, 0.5, 0.38};
     public static final double[] alignI = new double[] {0.0, 0.0, 0.0, 0.0};
     public static final double[] alignD = new double[] {0.0, 0.0, 0.0, 0.0};
 

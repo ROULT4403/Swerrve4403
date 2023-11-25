@@ -30,15 +30,11 @@ public class RobotContainer
     private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(rateLimiter);
     private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(rateLimiter);
 
-    private final AlignSwerve alignSwerve = new AlignSwerve(swerve); 
-
-    Trigger align = driver.start();
+    Trigger align = driver.a();
     
     public RobotContainer()
     {
-        alignSwerve.execute();
         configureButtonBindings();
-
         swerve.setDefaultCommand(
             new RunCommand(
                 () ->
@@ -50,10 +46,8 @@ public class RobotContainer
                 swerve));
     }
 
-    private void configureButtonBindings()
-    {
-        align.onTrue(alignSwerve);
-        align.onFalse(null);
+    private void configureButtonBindings() {
+        align.onTrue(new AlignSwerve(swerve));
     }
     
     public Command getAutonomousCommand()

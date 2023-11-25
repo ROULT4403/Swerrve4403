@@ -135,11 +135,11 @@ public class DriveSubsystem extends SubsystemBase
 
   public double getHeading()
   {
-    return gyro.getRotation2d().getDegrees();
+    return gyro.getRotation2d().getRadians();
   }
 
-  public double getTurnRate()
+  /*public double getTurnRate()
   {
     return gyro.getRate() * (navXInverted ? -1.0 : 1.0);
-  }
+  }*/
 }

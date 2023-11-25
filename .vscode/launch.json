@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch MyClass",
+      "request": "launch",
+      "mainClass": "frc.robot.MyClass",
+      "projectName": "Swerrve4403"
+    },
+    {
+      "type": "java",
       "name": "Launch myClass",
       "request": "launch",
       "mainClass": "frc.robot.myClass",

@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,9 +31,9 @@ public class SwerveModule  extends SubsystemBase
   private final RelativeEncoder driveEncoder;
   private final DutyCycleEncoder absoluteEncoder;
 
-  private final PIDController turningPID;
+  private boolean absoluteEncoderReversed;
 
-  private final double offset;
+  private final PIDController turningPID;
 
 
   public SwerveModule(
@@ -56,6 +57,7 @@ public class SwerveModule  extends SubsystemBase
 
         driveEncoder.setPositionConversionFactor(kDriveEncoderDistancePerPulse);
         driveEncoder.setVelocityConversionFactor(kDriveEncoderDistancePerPulse / 60);
+        absoluteEncoder.setDistancePerRotation(2 * Math.PI);
 
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
@@ -63,7 +65,9 @@ public class SwerveModule  extends SubsystemBase
         driveMotor.setIdleMode(IdleMode.kCoast);
         turningMotor.setNeutralMode(NeutralMode.Brake);
 
-        this.offset = offsetRad;
+        this.absoluteEncoderReversed = turningMotorReversed;
+
+        absoluteEncoder.setPositionOffset(offsetRad);
 
         turningPID = new PIDController(turningP, turningI, turningD);
 
@@ -75,7 +79,14 @@ public class SwerveModule  extends SubsystemBase
 
   public double getAngle()
   {
-    return ((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
+    if(absoluteEncoderReversed == true)
+    {
+      return -((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
+    }
+    else
+    {
+      return ((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
+    }
   }
 
   public void alignModule(double input)
@@ -97,7 +108,14 @@ public class SwerveModule  extends SubsystemBase
 
   public double getAbsoluteAngle()
   {
-    return (absoluteEncoder.getAbsolutePosition() * (2 * Math.PI)) - offset;
+    if(absoluteEncoderReversed == true)
+    {
+      return (absoluteEncoder.getAbsolutePosition());
+    }
+    else
+    {
+      return (absoluteEncoder.getAbsolutePosition());
+    }
   }
 
   public void setDesiredState(SwerveModuleState desiredState)
@@ -118,6 +136,7 @@ public class SwerveModule  extends SubsystemBase
   public void resetEncoders()
   {
     driveEncoder.setPosition(0);
+    //turningMotor.setSelectedSensorPosition(0);
     turningMotor.setSelectedSensorPosition(getAbsoluteAngle());
   }
 
