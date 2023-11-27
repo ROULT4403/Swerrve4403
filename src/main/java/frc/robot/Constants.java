@@ -21,18 +21,18 @@ public final class Constants
   public static final class DriveConstants
   {
     //CORRECTED IDS TO MATCH THE CORRECT ORDER, COMMENTS WITH PREVIOUS CONFIG
-    public static final int[] driveMotorIDs = new int[] {10, 1, 3, 4}; //{10, 3, 1, 4};
-    public static final int[] turningMotorIDs = new int[] {5, 6, 7, 8}; //{5, 7, 6, 8}
-    public static final int[] absoluteEncoderChannels = new int[] {1, 0, 2, 3}; //{5, 7, 6, 9}
+    public static final int[] driveMotorIDs = new int[] {10, 1, 3, 4};
+    public static final int[] turningMotorIDs = new int[] {5, 6, 7, 8};
+    public static final int[] absoluteEncoderChannels = new int[] {1, 0, 2, 3};
     public static final boolean[] driveInverted = new boolean[] {false, true, false, true};
-    public static final boolean[] turningInverted = new boolean[] {true, false, false, true};
+    public static final boolean[] turningInverted = new boolean[] {false, false, false, false};
     
     //NEED TO REVIEW THE CORRECT OFFSET FOR MODULES 
     public static final double[] offset = new double[] {0, 0, 0.67, 0};
     
     //NEED TO REVIEW WHY MODULE BACKRIGHT GOES CRAZY
-    public static final double[] turningP = new double[] {0.1, 0.25, 0.25, 0.0};
-    public static final double[] turningI = new double[] {0.00, 0.0, 0.0, 0.00};
+    public static final double[] turningP = new double[] {0.25, 0.25, 0.25, 0.25};
+    public static final double[] turningI = new double[] {0.25, 0.0, 0.0, 0.2};
     public static final double[] turningD = new double[] {0.0, 0.0, 0.0, 0.0};
 
     public static final double[] alignP = new double[] {0.5, 0.5, 0.5, 0.38};
@@ -60,11 +60,11 @@ public final class Constants
     public static final double turningSpeed = 2 * Math.PI;
     public static final double turningAcceleration = 2 * Math.PI;
 
-    public static final int kEncoderCPR = 42 * (27/4);
+    public static final double kEncoderCPR = 42 * (27/4);
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
     public static final double kDriveEncoderDistancePerPulse =
         // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+        (kWheelDiameterMeters * Math.PI) / kEncoderCPR;
 
     public static final double maxSpeedMPS = 3;
 

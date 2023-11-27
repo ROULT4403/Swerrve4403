@@ -77,7 +77,7 @@ public class SwerveModule  extends SubsystemBase
       }
 
 
-  public double getAngle()
+  /*public double getAngle()
   {
     if(absoluteEncoderReversed == true)
     {
@@ -87,6 +87,11 @@ public class SwerveModule  extends SubsystemBase
     {
       return ((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
     }
+  }*/
+
+  public double getAngle()
+  {
+    return ((turningMotor.getSelectedSensorPosition() / 16384) * 2 * Math.PI);
   }
 
   public void alignModule(double input)
@@ -136,8 +141,8 @@ public class SwerveModule  extends SubsystemBase
   public void resetEncoders()
   {
     driveEncoder.setPosition(0);
-    //turningMotor.setSelectedSensorPosition(0);
-    turningMotor.setSelectedSensorPosition(getAbsoluteAngle());
+    turningMotor.setSelectedSensorPosition(0);
+    //turningMotor.setSelectedSensorPosition(getAbsoluteAngle());
   }
 
   @Override
